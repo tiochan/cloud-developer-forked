@@ -15,3 +15,15 @@ export const divide = (a: number, b: number) => {
 // it should return one string combining the two strings.
 // it should throw an error if either of the strings are empty.
 // ensure your function is exported.
+
+export const concat = (first: string, second: string) => {
+
+    if ( first.length === 0 || second.length === 0 ) {
+        throw new Error('parameters can not be empty');
+    }
+
+    // Checking ways to concatenate vars in typescript:
+    // return first + second;
+    // return `${first}${second}`;
+    return first.concat(second);
+}
