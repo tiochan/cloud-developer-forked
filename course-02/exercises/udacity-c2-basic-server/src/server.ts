@@ -8,13 +8,13 @@ import { Car, cars as cars_list } from './cars';
   let cars:Car[]  = cars_list;
 
   //Create an express application
-  const app = express(); 
+  const app = express();
   //default port to listen
-  const port = 8082; 
+  const port = 8082;
   
-  //use middleware so post bodies 
+  //use middleware so post bodies
   //are accessable as req.body.{{variable}}
-  app.use(bodyParser.json()); 
+  app.use(bodyParser.json());
   app.use(express.urlencoded({ extended: true })) //for requests from forms-like data
 
   // Root URI call
@@ -30,12 +30,10 @@ import { Car, cars as cars_list } from './cars';
       let { name } = req.params;
 
       if ( !name ) {
-        return res.status(400)
-                  .send(`name is required`);
+        return res.status(400).send(`name is required`);
       }
 
-      return res.status(200)
-                .send(`Welcome to the Cloud, ${name}!`);
+      return res.status(200).send(`Welcome to the Cloud, ${name}!`);
   } );
 
   // Get a greeting to a specific person to demonstrate req.query
@@ -44,12 +42,10 @@ import { Car, cars as cars_list } from './cars';
     let { name } = req.query;
 
     if ( !name ) {
-      return res.status(400)
-                .send(`name is required`);
+      return res.status(400).send(`name is required`);
     }
 
-    return res.status(200)
-              .send(`Welcome to the Cloud, ${name}!`);
+    return res.status(200).send(`Welcome to the Cloud, ${name}!`);
   } );
 
   // Post a greeting to a specific person
@@ -62,23 +58,78 @@ import { Car, cars as cars_list } from './cars';
       const { name } = req.body;
 
       if ( !name ) {
-        return res.status(400)
-                  .send(`name is required`);
+        return res.status(400).send(`name is required`);
       }
 
-      return res.status(200)
-                .send(`Welcome to the Cloud, ${name}!`);
+      return res.status(200).send(`Welcome to the Cloud, ${name}!`);
   } );
 
   // @TODO Add an endpoint to GET a list of cars
   // it should be filterable by make with a query paramater
+  // End point "/cars/" that optionally accept query to filter cars by make
+  // Function made using Udacity's code as reference
+  app.get( "/cars/", ( req: Request, res: Response ) => {
+
+      let { make } = req.query;
+      let cars_list = [];
+
+      if( make ) {
+        cars_list = cars.filter( (car) => car.make === make );
+      } else {
+        cars_list = cars;
+      }
+
+      return res.status(200).send(cars_list);
+    }
+  );
 
   // @TODO Add an endpoint to get a specific car
   // it should require id
   // it should fail gracefully if no matching car is found
+  // End point "/cars/" that optionally accept query to filter cars by make
+  // Function made using Udacity's code as reference
+  app.get( "/cars/:id", ( req: Request, res: Response ) => {
+
+    let { id } = req.params;
+
+    // if not id provided, the raise the error
+    if( !id ) {
+      return res.status(400).send(`Id parameter is required`);
+    }
+
+    const car = cars.filter( (car) => String(car.id) == id );
+
+    // if haven't found any car, then return the not found error code and message
+    if (!car || car.length == 0) {
+      return res.status(404).send(`Car not found`);
+    }
+
+    // Car found, return it back to the caller
+    return res.status(200).send(car);
+  } );
 
   /// @TODO Add an endpoint to post a new car to our list
   // it should require id, type, model, and cost
+
+  app.post( "/cars/", ( req: Request, res: Response ) => {
+
+    let { make, type, model, cost } = req.body;
+
+    // Check all parameters have been set
+    if( !make || !type || !model || !cost ) {
+      return res.status(400).send(`Missing some required parameters: make, type, model and cost are required.`);
+    }
+
+    // Assuming the cars Id are consecutive and starts with 0.
+    // The lenght of the array does not need to be the highest Id available, but let's use it for this first
+    // release
+    let new_id = cars.length;
+    const new_car: Car = {make: make, type: type, model: model, cost: cost, id: new_id};
+
+    cars.push(new_car);
+
+    return res.status(201).send(new_car);
+  } );
 
   // Start the Server
   app.listen( port, () => {
