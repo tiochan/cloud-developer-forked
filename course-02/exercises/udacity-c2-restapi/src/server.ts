@@ -9,12 +9,7 @@ import { V0MODELS } from './controllers/v0/model.index';
 
 (async () => {
   await sequelize.addModels(V0MODELS);
-  // await sequelize.sync();
-  sequelize.authenticate().then(() => {
-    console.log('Connection has been established successfully');
-  }).catch(err => {
-    console.error('Unable to connect to the database:', err);
-  })
+  await sequelize.sync();
 
   const app = express();
   const port = process.env.PORT || 8080; // default port to listen
