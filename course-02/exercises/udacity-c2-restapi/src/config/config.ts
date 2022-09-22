@@ -3,7 +3,7 @@ export const config = {
     "username": "udagramsebas",
     "password": "udagramsebas",
     "database": "udagramsebas",
-    "host": "localhost",
+    "host": "192.168.1.144",
     "dialect": "postgres",
     "aws_region": "us-east-2",
     "aws_profile": "default",
