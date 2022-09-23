@@ -3,11 +3,12 @@ export const config = {
     "username": "udagramsebas",
     "password": "udagramsebas",
     "database": "udagramsebas",
-    "host": "192.168.1.144",
+    // "host": "192.168.1.141",
+    "host": "database-1.c0d8uixfjude.us-east-1.rds.amazonaws.com",
     "dialect": "postgres",
-    "aws_region": "us-east-2",
+    "aws_region": "us-east-1",
     "aws_profile": "default",
-    "aws_media_bucket": "udagram-ruttner-dev"
+    "aws_media_bucket": "udagram-sgomez-dev"
   },
   "jwt": {
     "secret": " "
