@@ -1,0 +1,11 @@
+# To add to your shell profile (i.e. ~/.profile)
+#
+export DB_USERNAME="udagramsebas"
+export DB_PASSWORD="udagramsebas"
+export DB_DATABASE="udagramsebas"
+export DB_HOST="database-1.c0d8uixfjude.us-east-1.rds.amazonaws.com"
+export DB_DIALECT="postgres"
+export AWS_REGION="us-east-1"
+export AWS_PROFILE="default"
+export AWS_MEDIA_BUCKET="udagram-sgomez-dev"
+export JWT_SECRET=" "
