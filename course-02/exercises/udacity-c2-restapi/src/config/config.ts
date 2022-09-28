@@ -4,7 +4,7 @@ export const config = {
     "password": process.env.DB_PASSWORD,
     "database": process.env.DB_DATABASE,
     //"host": "localhost",
-    "host": process.env.DB__HOST,
+    "host": process.env.DB_HOST,
     "dialect": process.env.DB_DIALECT,
     "aws_region": process.env.AWS_REGION,
     "aws_profile": process.env.AWS_PROFILE,
