@@ -12,13 +12,21 @@ import { config } from '../../../../config/config';
 const router: Router = Router();
 
 async function generatePassword(plainTextPassword: string): Promise<string> {
-    //@TODO Use Bcrypt to Generated Salted Hashed Passwords
-    return "NotYetImplemented"
+    // Copied from Udacity videos
+    // More info about bcrypt: https://www.npmjs.com/package/bcrypt
+    //
+    // Using 10 as a parameter for rounds (2^10 rounds) for salt generation
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hash = await bcrypt.hash(plainTextPassword, salt);
+
+    return hash;
 }
 
 async function comparePasswords(plainTextPassword: string, hash: string): Promise<boolean> {
-    //@TODO Use Bcrypt to Compare your password to your Salted Hashed Password
-    return true
+    // Copied from Udacity videos
+    // 'compare' function directly checks if the plain text generates the same hash
+    return await bcrypt.compare(plainTextPassword, hash);
 }
 
 function generateJWT(user: User): string {
@@ -89,8 +97,6 @@ router.post('/login', async (req: Request, res: Response) => {
 
 //register a new user
 router.post('/', async (req: Request, res: Response) => {
-    console.log("call received 1");
-
     const email = req.body.email;
     const plainTextPassword = req.body.password;
     // check email is valid
