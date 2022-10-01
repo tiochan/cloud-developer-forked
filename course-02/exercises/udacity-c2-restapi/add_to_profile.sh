@@ -10,7 +10,7 @@ export DB_DIALECT="postgres"
 export AWS_REGION="us-east-1"
 export AWS_PROFILE="default"
 export AWS_MEDIA_BUCKET="asdf"
-export JWT_SECRET=" "' >> ~/.profile
+export JWT_SECRET="HelloWorld"' >> ~/.profile
 
 echo "Vars added to ~/.profile"
 echo "Please, edit that file and set the values properly."

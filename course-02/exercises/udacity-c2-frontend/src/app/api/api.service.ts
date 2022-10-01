@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders,  HttpErrorResponse, HttpRequest, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpHeaders,  HttpErrorResponse, HttpRequest, HttpEvent, HttpEventType } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { FeedItem } from '../feed/models/feed-item.model';
@@ -18,6 +18,8 @@ export class ApiService {
   token: string;
 
   constructor(private http: HttpClient) {
+    this.httpOptions.headers = this.httpOptions.headers.append('Access-Control-Allow-Origin', `${environment.apiHostName}`);
+    this.httpOptions.headers = this.httpOptions.headers.append('Access-Control-Allow-Origin', "http://192.168.102:8080");
   }
 
   handleError(error: Error) {
