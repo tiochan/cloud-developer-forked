@@ -2,6 +2,10 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
+export function requireAuth(req: Request, res: Response, next: NextFunction) {
+}
+
+
 (async () => {
 
   // Init the Express application
@@ -27,7 +31,21 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   // RETURNS
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
 
-  /**************************************************************************** */
+  app.get('/filteredimage/:image_url',
+    requireAuth,    // @TODO: check what needs to be imported: JWT + token
+    async (req: Request, res: Response) => {
+      let { image_url } = req.params;
+
+      if(!image_url) {
+        return res.status(400).send( { message: 'Image URL is requred'});
+      }
+
+      const filteredImagePath = filterImageFromURL(image_url);
+      // res.status(200).send({url: filteredImage});
+      res.status(200).sendFile(filteredImagePath);
+      deleteLocalFiles([filteredImagePath.toString()]);
+    }
+  );
 
   //! END @TODO1
   
