@@ -18,8 +18,8 @@ export class ApiService {
   token: string;
 
   constructor(private http: HttpClient) {
-    this.httpOptions.headers = this.httpOptions.headers.append('Access-Control-Allow-Origin', `${environment.apiHostName}`);
-    this.httpOptions.headers = this.httpOptions.headers.append('Access-Control-Allow-Origin', "http://192.168.102:8080");
+    // this.httpOptions.headers = this.httpOptions.headers.append('Access-Control-Allow-Origin', `${environment.apiHostName}`);
+    // this.httpOptions.headers = this.httpOptions.headers.append('Access-Control-Allow-Origin', "http://192.168.102:8080");
   }
 
   handleError(error: Error) {
