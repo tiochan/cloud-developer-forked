@@ -31,19 +31,30 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
   // RETURNS
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
 
-  app.get('/filteredimage/:image_url',
-    requireAuth,    // @TODO: check what needs to be imported: JWT + token
-    async (req: Request, res: Response) => {
-      let { image_url } = req.params;
+  app.get('/filteredimage',
+    // requireAuth,    // @TODO: check what needs to be imported: JWT + token
+    async ( req, res ) => {
+      let { image_url } = req.query;
 
       if(!image_url) {
         return res.status(400).send( { message: 'Image URL is requred'});
       }
 
-      const filteredImagePath = filterImageFromURL(image_url);
-      // res.status(200).send({url: filteredImage});
-      res.status(200).sendFile(filteredImagePath);
-      deleteLocalFiles([filteredImagePath.toString()]);
+      const filteredImagePath = await filterImageFromURL(image_url);
+
+      // To delete the file we have to monitor the callback to res.sendFile, 
+      // otherwise the file might be deleted before the requester get it
+      // res.status(200).sendFile(filteredImagePath);
+      // Source: Stack overflow (https://stackoverflow.com/questions/59759842/nodejs-file-get-deleted-before-sending-response-res-send)
+
+      res.status(200).sendFile(filteredImagePath, error => {
+        if(error) {
+          console.log(`Error delivering file: ${error}`);
+          res.sendStatus(500);
+        }
+
+        deleteLocalFiles([filteredImagePath.toString()]);
+      });
     }
   );
 
