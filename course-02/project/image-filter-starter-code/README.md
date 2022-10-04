@@ -19,6 +19,16 @@ Examples:
 - [Call using an existing remote picture](http://image-filter-sgomez-dev.us-east-1.elasticbeanstalk.com/filteredimage?image_url=https://s1.wp.com/wp-content/themes/h4/i/pic-crowd-2x.jpg)
 - [Call using an **NO** existing remote picture](http://image-filter-sgomez-dev.us-east-1.elasticbeanstalk.com/filteredimage?image_url=https://s1.wp.com/wp-content/themes/h4/i/pic-crowd-2xasdf.jpg)
 
+## Screenshots
+
+There is a set of screenshots showing this in action:
+
+- Screenshot 1, [App deployed in Elastic Beanstalk](deployment_screenshots/1_App_deployed_in_Elastic_Beanstalk.png)
+- Screenshot 2, [Detail of HOST var set to EB endpoint in Postman](deployment_screenshots/2_Postman_vars_HOST.png)
+- Screenshot 3, [Successfully request made in Postman to EB endpoint](deployment_screenshots/3_Postman_call_ok.png)
+- Screenshot 4, [Same, but using a wrong remote file](deployment_screenshots/4_Postman_call_nonexistent_image_generates_http_error.png)
+
+
 ## Tasks
 
 ### Setup Node Environment
