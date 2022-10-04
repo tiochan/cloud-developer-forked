@@ -44,12 +44,15 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
         return res.status(400).send( { message: 'Image URL is requred'});
       }
 
-      const filteredImagePath = await filterImageFromURL(image_url)
-      .catch( error => {
+      var filteredImagePath:string;
+
+      try {
+        filteredImagePath = await filterImageFromURL(image_url);
+      } catch(error) {
         // Handle exceptions (like files that can't be accessed, wrong URLs, ...)
         console.log("Error 2: " + error);
         return res.status(400).send( { message : error } );
-      });
+      }
 
       // To delete the file we have to monitor the callback to res.sendFile, 
       // otherwise the file might be deleted before the requester get it
