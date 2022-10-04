@@ -1,10 +1,12 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
+import { filter } from 'bluebird';
 
+/* @TODO: define the auth function
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
 }
-
+*/
 
 (async () => {
 
@@ -16,6 +18,8 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
   
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
+  app.use(express.urlencoded({ extended: true })) //for requests from forms-like data
+
 
   // @TODO1 IMPLEMENT A RESTFUL ENDPOINT
   // GET /filteredimage?image_url={{URL}}
@@ -40,13 +44,17 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
         return res.status(400).send( { message: 'Image URL is requred'});
       }
 
-      const filteredImagePath = await filterImageFromURL(image_url);
+      const filteredImagePath = await filterImageFromURL(image_url)
+      .catch( error => {
+        // Handle exceptions (like files that can't be accessed, wrong URLs, ...)
+        console.log("Error 2: " + error);
+        return res.status(400).send( { message : error } );
+      });
 
       // To delete the file we have to monitor the callback to res.sendFile, 
       // otherwise the file might be deleted before the requester get it
       // res.status(200).sendFile(filteredImagePath);
       // Source: Stack overflow (https://stackoverflow.com/questions/59759842/nodejs-file-get-deleted-before-sending-response-res-send)
-
       res.status(200).sendFile(filteredImagePath, error => {
         if(error) {
           console.log(`Error delivering file: ${error}`);
