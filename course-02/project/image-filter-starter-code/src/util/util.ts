@@ -23,7 +23,6 @@ export async function filterImageFromURL(inputURL: string): Promise<string> {
           resolve(__dirname + outpath);
         });
     } catch (error) {
-      console.log(`Error 1: ${error}`);
       reject("Error: can't get image file");
     }
   });
